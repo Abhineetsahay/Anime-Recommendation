@@ -1,0 +1,146 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "postgresql"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User 
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  passwordHash  String 
+  avatar        String?
+  bio           String?
+  firstLogin    Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  genres        UserGenre[]
+  lists         AnimeList[]
+  listEntries   ListEntry[]   
+
+  @@map("users")
+}
+
+
+//Genre preferences 
+
+model Genre {
+  id    String      @id @default(cuid())
+  name  String      @unique  
+
+  users UserGenre[]
+  lists ListGenre[]
+
+  @@map("genres")
+}
+
+model UserGenre {
+  userId   String
+  genreId  String
+
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  genre    Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([userId, genreId])
+  @@map("user_genres")
+}
+
+// Anime List 
+
+model AnimeList {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  isPublic    Boolean   @default(false)
+  shareToken  String    @unique @default(cuid())  
+  editToken   String    @unique @default(cuid())  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  ownerId     String
+  owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  entries     ListEntry[]
+  genres      ListGenre[]
+
+  @@map("anime_lists")
+}
+
+// List Genre tags
+
+model ListGenre {
+  listId  String
+  genreId String
+
+  list    AnimeList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  genre   Genre     @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([listId, genreId])
+  @@map("list_genres")
+}
+
+// Anime (cached from MAL / Jikan)
+
+model Anime {
+  id           String   @id @default(cuid())
+  malId        Int      @unique   // MyAnimeList ID
+  title        String
+  titleEnglish String?
+  synopsis     String?
+  coverImage   String?
+  genres       String[] 
+  type         String?  
+  episodes     Int?
+  score        Float?
+  rank         Int?
+  popularity   Int?
+  status       String?  
+  year         Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  entries      ListEntry[]
+
+  @@map("anime")
+}
+
+// List Entry  
+
+model ListEntry {
+  id        String      @id @default(cuid())
+  listId    String
+  animeId   String
+  addedById String?     
+  
+  status    WatchStatus @default(PLAN_TO_WATCH)
+  rating    Int?       
+  progress  Int?       
+  notes     String?
+  order     Int         @default(0)  
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  list      AnimeList   @relation(fields: [listId], references: [id], onDelete: Cascade)
+  anime     Anime       @relation(fields: [animeId], references: [id], onDelete: Cascade)
+  addedBy   User?       @relation(fields: [addedById], references: [id], onDelete: SetNull)
+
+  @@unique([listId, animeId])  
+  @@map("list_entries")
+}
+
+
+enum WatchStatus {
+  WATCHING
+  COMPLETED
+  ON_HOLD
+  DROPPED
+  PLAN_TO_WATCH
+}
