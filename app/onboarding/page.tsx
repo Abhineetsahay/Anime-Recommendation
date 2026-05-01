@@ -121,18 +121,24 @@ export default function OnboardingPage() {
     setLoading(true);
     setError("");
 
-    const res = await fetch("/api/v1/user/genres", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ genres: selected }),
-    });
+    try {
+      const res = await fetch("/api/v1/user/genres", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ genres: selected }),
+      });
 
-    const data = await res.json();
-    setLoading(false);
+      const data = await res.json();
+      setLoading(false);
 
-    if (!res.ok) return setError(data.error);
+      if (!res.ok) return setError(data.error);
 
-    router.push("/dashboard");
+      router.push("/dashboard");
+    } catch (error) {
+      setLoading(false);
+      setError(error instanceof Error ? error.message : "An error occurred. Please try again.");
+      console.error("Error saving genres:", error);
+    }
   }
 
   if (isCheckingLogin) {
