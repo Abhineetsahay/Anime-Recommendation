@@ -27,7 +27,7 @@ export default async function DiscoverPage() {
         where: { userId: payload.userId },
         include: { genre: true },
       });
-      userGenres = genres.map(g => g.genre.name);
+      userGenres = genres.map((g: { genre: { name: string } }) => g.genre.name);
     }
   }
 
