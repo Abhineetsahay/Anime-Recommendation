@@ -38,7 +38,7 @@ export default function AnimeCard({
     <div className="group relative">
       <div className="cursor-pointer" onClick={() => onSelectAnime(anime)}>
         {/* Cover */}
-        <div className="relative w-full rounded-xl overflow-hidden bg-white/5 mb-2 flex items-center justify-center min-h-[240px]">
+        <div className="relative w-full rounded-xl overflow-hidden bg-white/5 mb-2 flex items-center justify-center min-h-60">
           <Image
             src={anime.images.jpg.large_image_url}
             alt={anime.title}

@@ -59,7 +59,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET — fetch current user's genres (for updating preferences later)
 export async function GET() {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
@@ -72,6 +71,6 @@ export async function GET() {
   });
 
   return NextResponse.json({
-    genres: userGenres.map(ug => ug.genre.name),
+    genres: userGenres.map((ug: { genre: { id: string; name: string } }) => ug.genre.name),
   });
 }

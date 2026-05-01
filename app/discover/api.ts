@@ -1,5 +1,5 @@
 // api.ts
-import { Anime, Tab, JIKAN_GENRE_MAP } from "./types";
+import { Anime, Tab } from "./types";
 
 export async function fetchAnimeByTab(
   tab: Tab,

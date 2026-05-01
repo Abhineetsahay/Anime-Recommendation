@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import PageHeader from "./components/PageHeader";
 import TabBar from "./components/TabBar";
