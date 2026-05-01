@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      genres = getUser?.genres.map((genre) => genre.genre.name) || [];
+      genres = getUser?.genres.map((genre: { genre: { name: string } }) => genre.genre.name) || [];
     }
 
     if (!genres || genres.length === 0) {
