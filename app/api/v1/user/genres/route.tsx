@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     // Insert new preferences
     await prisma.userGenre.createMany({
-      data: genreRecords.map(genre => ({
+      data: genreRecords.map((genre: { id: string; name: string }) => ({
         userId: currentUser.userId,
         genreId: genre.id,
       })),
