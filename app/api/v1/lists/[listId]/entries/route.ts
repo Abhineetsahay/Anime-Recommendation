@@ -4,14 +4,14 @@ import { getCurrentUser } from "@/lib/auth";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { listId: string } }
+  { params }: { params: Promise<{ listId: string }> }
 ) {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { listId } = params;
+  const { listId } = await params;
   const body = await req.json();
   const { malId, title, titleEnglish, coverImage, genres, type, episodes, score, year } = body;
 
