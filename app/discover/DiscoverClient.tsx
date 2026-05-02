@@ -104,7 +104,7 @@ export default function DiscoverClient({
         userAvatar={userAvatar}
       />
 
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Header */}
         <PageHeader userGenres={userGenres} />
 
@@ -129,7 +129,7 @@ export default function DiscoverClient({
 
         {/* Anime grid */}
         {animeList.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 my-6 sm:my-8">
             {animeList.map((anime,i) => (
               <AnimeCard
                 key={i}
@@ -147,7 +147,7 @@ export default function DiscoverClient({
 
         {/* Load more button */}
         {!loading && hasMore && animeList.length > 0 && (
-          <div className="text-center mt-10">
+          <div className="text-center mt-6 sm:mt-10">
             <button
               onClick={handleLoadMore}
               className="bg-white/5 hover:bg-white/10 border border-white/10 px-8 py-3 rounded-xl text-sm transition-colors"

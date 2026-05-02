@@ -11,28 +11,18 @@ export async function fetchAnimeByTab(
     let url = "";
 
     if (tab === "Trending") {
-      url = `https://api.jikan.moe/v4/top/anime?filter=airing&page=${pageNum}&limit=20`;
+      url = `/api/v1/anime/trending?page=${pageNum}`;
     } else if (tab === "Top Rated") {
-      url = `https://api.jikan.moe/v4/top/anime?filter=bypopularity&page=${pageNum}&limit=20`;
+      url = `/api/v1/anime/top-rated?page=${pageNum}`;
     } else if (tab === "Seasonal") {
-      const year = new Date().getFullYear();
-      const month = new Date().getMonth();
-      const season =
-        month < 3
-          ? "winter"
-          : month < 6
-            ? "spring"
-            : month < 9
-              ? "summer"
-              : "fall";
-      url = `https://api.jikan.moe/v4/seasons/${year}/${season}?page=${pageNum}&limit=20`;
+      url = `/api/v1/anime/seasonal?page=${pageNum}`;
     } else if (tab === "Search" && query) {
-      url = `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&page=${pageNum}&limit=20`;
+      url = `/api/v1/anime/search?q=${encodeURIComponent(query)}&page=${pageNum}`;
     } else if (tab === "For You" && userGenres.length > 0) {
       const genreQuery = userGenres.slice(0, 3).join("&genres=");
       url = `/api/v1/recommend?genres=${genreQuery}&top_n=20`;
     } else {
-      url = `https://api.jikan.moe/v4/top/anime?page=${pageNum}&limit=20`;
+      url = `/api/v1/anime/top-rated?page=${pageNum}`;
     }
 
     if (!url) {
@@ -48,17 +38,9 @@ export async function fetchAnimeByTab(
 
     const data = await res.json();
     
-    
-    if (url.includes("/api/v1/recommend")) {
-      return {
-        data: data.data.recommendations ?? [],
-        hasMore: data.hasMore ?? false,
-      };
-    }
-    
     return {
       data: data.data ?? [],
-      hasMore: data.pagination?.has_next_page ?? false,
+      hasMore: data.hasMore ?? false,
     };
   } catch (err) {
     console.error("Failed to fetch anime:", err);

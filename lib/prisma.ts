@@ -11,7 +11,6 @@ if (!connectionString) {
 }
 
 export const prisma =
-  globalForPrisma.prisma ||
   new PrismaClient({
     adapter: new PrismaPg({ connectionString }),
   });

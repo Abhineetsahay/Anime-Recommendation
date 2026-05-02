@@ -49,6 +49,7 @@ export default function AnimeModal({
             width={100}
             height={150}
             className="rounded-xl object-cover shrink-0"
+            loading="lazy"
           />
           <div className="flex-1 min-w-0">
             <h2 className="font-bold text-base leading-tight">

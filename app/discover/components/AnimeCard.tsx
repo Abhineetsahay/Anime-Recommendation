@@ -38,7 +38,7 @@ export default function AnimeCard({
     <div className="group relative">
       <div className="cursor-pointer" onClick={() => onSelectAnime(anime)}>
         {/* Cover */}
-        <div className="relative w-full rounded-xl overflow-hidden bg-white/5 mb-2 flex items-center justify-center min-h-60">
+        <div className="relative w-full rounded-lg sm:rounded-xl overflow-hidden bg-white/5 mb-1 sm:mb-2 flex items-center justify-center min-h-40 sm:min-h-60">
           <Image
             src={anime.images.jpg.large_image_url}
             alt={anime.title}
@@ -46,11 +46,11 @@ export default function AnimeCard({
             height={240}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             priority={false}
-            unoptimized
+            loading="lazy"
           />
           {/* Score badge */}
           {anime.score && (
-            <div className="absolute top-2 left-2 bg-black/70 backdrop-blur px-2 py-0.5 rounded-lg text-xs font-bold text-yellow-400">
+            <div className="absolute top-1 left-1 sm:top-2 sm:left-2 bg-black/70 backdrop-blur px-1.5 sm:px-2 py-0.5 rounded text-xs font-bold text-yellow-400">
               ★ {anime.score}
             </div>
           )}
@@ -59,20 +59,20 @@ export default function AnimeCard({
             <span className="text-xs font-medium">View details</span>
           </div>
         </div>
-        <p className="text-xs font-medium truncate text-white/80 group-hover:text-white transition-colors">
+        <p className="text-xs font-medium truncate text-white/80 group-hover:text-white transition-colors line-clamp-2">
           {anime.title_english ?? anime.title}
         </p>
-        <p className="text-xs text-white/30 mt-0.5">
+        <p className="text-xs text-white/30 mt-0.5 truncate">
           {anime.year ?? "—"} · {anime.type}
         </p>
       </div>
 
       {/* Add to list button */}
       {userId && (
-        <div className="relative mt-1.5">
+        <div className="relative mt-1 sm:mt-1.5">
           <button
             onClick={() => setShowListPicker(!showListPicker)}
-            className="w-full text-xs text-white/40 hover:text-purple-400 border border-white/10 hover:border-purple-500/50 rounded-lg py-1 transition-all"
+            className="w-full text-xs text-white/40 hover:text-purple-400 border border-white/10 hover:border-purple-500/50 rounded-lg py-1 px-2 transition-all"
           >
             + Add to list
           </button>

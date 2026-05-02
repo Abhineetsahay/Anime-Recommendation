@@ -39,9 +39,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-xl shadow-sm w-full max-w-md">
-        <h1 className="text-2xl font-semibold mb-6">Welcome back</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8 sm:px-6">
+      <div className="bg-white p-6 sm:p-8 rounded-xl shadow-sm w-full max-w-md">
+        <h1 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Welcome back</h1>
 
         {error && (
           <p className="text-red-500 text-sm mb-4 p-3 bg-red-50 rounded-lg">
@@ -49,24 +49,24 @@ export default function LoginPage() {
           </p>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Email</label>
             <input
               type="email"
               required
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
               value={form.email}
               onChange={e => setForm({ ...form, email: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Password</label>
             <input
               type="password"
               required
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
               value={form.password}
               onChange={e => setForm({ ...form, password: e.target.value })}
             />
@@ -75,7 +75,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-purple-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-50"
+            className="w-full bg-purple-600 text-white py-2 sm:py-2.5 rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-50 transition-all mt-2 sm:mt-4"
           >
             {loading ? "Logging in..." : "Log in"}
           </button>

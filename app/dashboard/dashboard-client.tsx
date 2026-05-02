@@ -52,6 +52,7 @@ export default function DashboardClient({
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [createError, setCreateError] = useState("");
 
+  
   async function handleCreateList() {
     if (!newListTitle.trim()) return;
     setLoadingCreate(true);
@@ -95,26 +96,26 @@ export default function DashboardClient({
         username={user?.username}
       />
 
-      <main className="max-w-5xl mx-auto px-6 py-10 space-y-10">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-10">
         {/* Welcome */}
         <section>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-2xl sm:text-3xl font-bold">
             Hey, <span className="text-purple-400">{user?.username}</span> 👋
           </h1>
-          <p className="text-white/40 text-sm mt-1">
+          <p className="text-white/40 text-xs sm:text-sm mt-1">
             You have {totalLists} list{totalLists !== 1 ? "s" : ""}
           </p>
         </section>
 
         {/* Genre preferences */}
         <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-white/60 uppercase tracking-widest">
+          <div className="flex items-center justify-between mb-2 sm:mb-3 gap-2">
+            <h2 className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-widest">
               Your genres
             </h2>
             <Link
               href="/settings/genres"
-              className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
+              className="text-xs text-purple-400 hover:text-purple-300 transition-colors whitespace-nowrap"
             >
               Edit →
             </Link>
@@ -140,7 +141,7 @@ export default function DashboardClient({
         </section>
 
         {/* Stats row */}
-        <section className="grid grid-cols-3 gap-4">
+        <section className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
           {[
             { label: "Total Lists", value: totalLists },
             {
@@ -154,9 +155,9 @@ export default function DashboardClient({
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center"
+              className="bg-white/5 border border-white/10 rounded-lg sm:rounded-2xl p-3 sm:p-5 text-center"
             >
-              <p className="text-3xl font-bold text-purple-400">{stat.value}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-purple-400">{stat.value}</p>
               <p className="text-xs text-white/40 mt-1">{stat.label}</p>
             </div>
           ))}
@@ -164,15 +165,15 @@ export default function DashboardClient({
 
         {/* My Lists */}
         <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-white/60 uppercase tracking-widest">
+          <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
+            <h2 className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-widest">
               My Lists
             </h2>
             <button
               onClick={() => setCreatingList(true)}
-              className="text-xs bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg transition-colors"
+              className="text-xs bg-purple-600 hover:bg-purple-700 text-white px-2 sm:px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
             >
-              + New list
+              + New
             </button>
           </div>
 
@@ -270,6 +271,7 @@ export default function DashboardClient({
                           width={40}
                           height={56}
                           className="rounded-lg object-cover h-full w-auto"
+                          loading="lazy"
                         />
                       ) : (
                         <div

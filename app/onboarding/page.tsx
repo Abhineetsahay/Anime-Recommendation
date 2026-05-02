@@ -144,31 +144,31 @@ export default function OnboardingPage() {
   if (isCheckingLogin) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Loading...</p>
+        <p className="text-gray-500 text-sm sm:text-base">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-3 sm:px-4 py-6 sm:py-8">
       <div className="w-full max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">Welcome! 👋</h1>
-          <p className="text-gray-600 mt-3 text-base">
-            Pick your favourite genres so we can recommend anime you&apos;ll
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Welcome! 👋</h1>
+          <p className="text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">
+            Pick your favourite genres so we can recommend anime you&lsquo;ll
             love.
           </p>
-          <p className="text-sm text-gray-400 mt-2">Choose at least 3</p>
+          <p className="text-xs sm:text-sm text-gray-400 mt-1 sm:mt-2">Choose at least 3</p>
         </div>
 
-        <div className="space-y-6 mb-6">
+        <div className="space-y-4 sm:space-y-6 mb-4 sm:mb-6">
           {Object.entries(GENRE_CATEGORIES).map(([category, genres]) => (
             <div key={category}>
-              <h2 className="text-lg font-semibold text-gray-700 mb-3 pl-1">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-700 mb-2 sm:mb-3 pl-1">
                 {category}
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
                 {genres.map((genre) => {
                   const isSelected = selected.includes(genre);
                   return (
@@ -176,7 +176,7 @@ export default function OnboardingPage() {
                       key={genre}
                       onClick={() => toggleGenre(genre)}
                       className={`
-                        py-2 px-3 rounded-lg text-sm font-medium border-2 transition-all duration-150 truncate
+                        py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg text-xs sm:text-sm font-medium border-2 transition-all duration-150 truncate
                         ${
                           isSelected
                             ? "bg-purple-600 border-purple-600 text-white shadow-md"
@@ -193,7 +193,7 @@ export default function OnboardingPage() {
           ))}
         </div>
 
-        <p className="text-center text-sm text-gray-500 mb-4">
+        <p className="text-center text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
           {selected.length} genre{selected.length !== 1 ? "s" : ""} selected
         </p>
 
