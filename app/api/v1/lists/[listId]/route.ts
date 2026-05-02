@@ -12,7 +12,10 @@ export async function PATCH(
 
   const { listId } = await params;
   if (!listId) {
-    return NextResponse.json({ error: "Invalid route params" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid route params" },
+      { status: 400 },
+    );
   }
 
   const { title, description, isPublic } = await req.json();
@@ -42,7 +45,10 @@ export async function DELETE(
 
   const { listId } = await params;
   if (!listId) {
-    return NextResponse.json({ error: "Invalid route params" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid route params" },
+      { status: 400 },
+    );
   }
 
   const list = await prisma.animeList.findUnique({
