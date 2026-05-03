@@ -5,7 +5,22 @@ import { signToken } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const body = await req.json();
+    let payload = body;
+    if (body && typeof body.data === "string") {
+      try {
+        const decoded = Buffer.from(body.data, "base64").toString("utf-8");
+        payload = JSON.parse(decoded);
+      } catch (err) {
+        console.log(err);
+        return NextResponse.json(
+          { error: "Invalid payload encoding" },
+          { status: 400 },
+        );
+      }
+    }
+
+    const { email, password } = payload;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -17,13 +32,19 @@ export async function POST(req: NextRequest) {
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user || !user.passwordHash) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 },
+      );
     }
 
     const valid = await bcrypt.compare(password, user.passwordHash);
 
     if (!valid) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Invalid credentials" },
+        { status: 401 },
+      );
     }
 
     const token = signToken(user.id);
@@ -50,7 +71,7 @@ export async function POST(req: NextRequest) {
     console.error("Login error:", error);
     return NextResponse.json(
       { error: "An error occurred during login. Please try again." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

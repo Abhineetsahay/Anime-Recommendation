@@ -15,10 +15,20 @@ export default function SignupPage() {
     setError("");
 
     try {
+      const encode = (obj: unknown) => {
+        const str = JSON.stringify(obj);
+
+        if (typeof window !== "undefined") {
+          return btoa(String.fromCharCode(...new TextEncoder().encode(str)));
+        }
+
+        return Buffer.from(str, "utf-8").toString("base64");
+      };
+
       const res = await fetch("/api/v1/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ data: encode(form) }),
       });
 
       const data = await res.json();
@@ -34,7 +44,11 @@ export default function SignupPage() {
       }
     } catch (error) {
       setLoading(false);
-      setError(error instanceof Error ? error.message : "An error occurred. Please try again.");
+      setError(
+        error instanceof Error
+          ? error.message
+          : "An error occurred. Please try again.",
+      );
       console.log(error);
     }
   }
@@ -42,7 +56,9 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8 sm:px-6">
       <div className="bg-white p-6 sm:p-8 rounded-xl shadow-sm w-full max-w-md">
-        <h1 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Create account</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
+          Create account
+        </h1>
 
         {error && (
           <p className="text-red-500 text-sm mb-4 p-3 bg-red-50 rounded-lg">
@@ -52,7 +68,9 @@ export default function SignupPage() {
 
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Email</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">
+              Email
+            </label>
             <input
               type="email"
               required
@@ -63,7 +81,9 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Username</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">
+              Username
+            </label>
             <input
               type="text"
               required
@@ -74,7 +94,9 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">Password</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2">
+              Password
+            </label>
             <input
               type="password"
               required

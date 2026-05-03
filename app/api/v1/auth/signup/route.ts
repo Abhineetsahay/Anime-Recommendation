@@ -5,12 +5,28 @@ import { signToken } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, username, password } = await req.json();
+    const body = await req.json();
+    let payload = body;
+    if (body && typeof body.data === "string") {
+      try {
+        const decoded = Buffer.from(body.data, "base64").toString("utf-8");
+        payload = JSON.parse(decoded);
+      } catch (err) {
+        console.log(err);
+
+        return NextResponse.json(
+          { error: "Invalid payload encoding" },
+          { status: 400 },
+        );
+      }
+    }
+
+    const { email, username, password } = payload;
 
     if (!email || !username || !password) {
       return NextResponse.json(
         { error: "All fields are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -21,7 +37,7 @@ export async function POST(req: NextRequest) {
     if (existing) {
       return NextResponse.json(
         { error: "Email or username already taken" },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -34,7 +50,12 @@ export async function POST(req: NextRequest) {
     const token = signToken(user.id);
 
     const response = NextResponse.json({
-      user: { id: user.id, email: user.email, username: user.username, firstLogin: user.firstLogin },
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        firstLogin: user.firstLogin,
+      },
     });
 
     response.cookies.set("token", token, {
@@ -50,7 +71,7 @@ export async function POST(req: NextRequest) {
     console.error("Signup error:", error);
     return NextResponse.json(
       { error: "An error occurred during signup. Please try again." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
