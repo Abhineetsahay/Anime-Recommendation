@@ -18,12 +18,26 @@ export async function PATCH(
     );
   }
 
+  const list = await prisma.animeList.findUnique({ where: { id: listId } });
+  if (!list) {
+    return NextResponse.json({ error: "List not found" }, { status: 404 });
+  }
+  if (list.ownerId !== currentUser.userId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const existingEntry = await prisma.listEntry.findFirst({
+    where: { id: entryId, listId },
+  });
+  if (!existingEntry) {
+    return NextResponse.json({ error: "Entry not found" }, { status: 404 });
+  }
+
   const { status, rating, progress, notes } = await req.json();
 
   const entry = await prisma.listEntry.update({
     where: {
       id: entryId,
-      listId,
     },
     data: { status, rating, progress, notes },
   });
@@ -47,12 +61,24 @@ export async function DELETE(
     );
   }
 
-  await prisma.listEntry.delete({
+  const list = await prisma.animeList.findUnique({ where: { id: listId } });
+  if (!list) {
+    return NextResponse.json({ error: "List not found" }, { status: 404 });
+  }
+  if (list.ownerId !== currentUser.userId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const result = await prisma.listEntry.deleteMany({
     where: {
       id: entryId,
       listId,
     },
   });
+
+  if (result.count === 0) {
+    return NextResponse.json({ error: "Entry not found" }, { status: 404 });
+  }
 
   return NextResponse.json({ success: true });
 }

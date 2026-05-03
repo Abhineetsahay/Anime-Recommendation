@@ -15,10 +15,13 @@ export async function POST(
   const body = await req.json();
   const { malId, title, titleEnglish, coverImage, genres, type, episodes, score, year } = body;
 
-  // Verify list belongs to user or they have edit access
+  // Verify list belongs to the current user
   const list = await prisma.animeList.findUnique({ where: { id: listId } });
   if (!list) {
     return NextResponse.json({ error: "List not found" }, { status: 404 });
+  }
+  if (list.ownerId !== currentUser.userId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   // Upsert anime into local cache

@@ -13,8 +13,27 @@ export default async function ListPage({
 
   if (!shareToken) notFound();
 
-  const list = await prisma.animeList.findUnique({
-    where: { shareToken },
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  let currentUserId: string | null = null;
+
+  if (token) {
+    const payload = verifyToken(token);
+    if (payload) currentUserId = payload.userId;
+  }
+
+  const where = currentUserId
+    ? {
+        shareToken,
+        OR: [{ isPublic: true }, { ownerId: currentUserId }],
+      }
+    : {
+        shareToken,
+        isPublic: true,
+      };
+
+  const list = await prisma.animeList.findFirst({
+    where,
     include: {
       owner: { select: { id: true, username: true, avatar: true } },
       entries: {
@@ -29,17 +48,8 @@ export default async function ListPage({
 
   if (!list) notFound();
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  let currentUserId: string | null = null;
-
-  if (token) {
-    const payload = verifyToken(token);
-    if (payload) currentUserId = payload.userId;
-  }
-
   const isOwner = currentUserId === list.ownerId;
-  const canEdit = isOwner; 
+  const canEdit = isOwner;
 
   return (
     <ListDetailClient

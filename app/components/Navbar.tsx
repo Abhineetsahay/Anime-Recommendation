@@ -19,7 +19,6 @@ export default function Navbar({
   const router = useRouter();
 
   const [loggingOut, setLoggingOut] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const [mobileNavDetailOpen, setmobileNavDetailOpen] = useState(false);
 
@@ -39,20 +38,6 @@ export default function Navbar({
       alert("Failed to logout. Please try again.");
     }
   }
-
-  useEffect(() => {
-    const checkScreen = () => {
-      if (window.innerWidth >= 768) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", checkScreen);
-
-    return () => {
-      window.removeEventListener("resize", checkScreen);
-    };
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -196,8 +181,7 @@ export default function Navbar({
         </div>
       )}
 
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && mobileNavDetailOpen && (
+      {mobileNavDetailOpen && (
         <div className="sm:hidden border-t border-white/10 bg-[#0f0f13]/95 backdrop-blur px-4 py-3">
           <div className="flex flex-col gap-2">
             <Link

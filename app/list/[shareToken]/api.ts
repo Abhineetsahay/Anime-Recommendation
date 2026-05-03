@@ -38,6 +38,19 @@ export async function updateAnimeListTitle(
   return res.ok;
 }
 
+export async function updateAnimeListVisibility(
+  listId: string,
+  isPublic: boolean,
+): Promise<boolean> {
+  const res = await fetch(`/api/v1/lists/${listId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isPublic }),
+  });
+
+  return res.ok;
+}
+
 export async function deleteAnimeList(listId: string): Promise<boolean> {
   const res = await fetch(`/api/v1/lists/${listId}`, { method: "DELETE" });
   return res.ok;

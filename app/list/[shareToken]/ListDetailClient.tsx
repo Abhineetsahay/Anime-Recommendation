@@ -10,6 +10,7 @@ import {
   deleteListEntry,
   mergeUpdatedEntry,
   updateAnimeListTitle,
+  updateAnimeListVisibility,
   updateListEntry,
 } from "./api";
 import type { Entry, EntryUpdateInput, ListDetailClientProps } from "./types";
@@ -32,6 +33,7 @@ export default function ListDetailClient({
   const [showShareModal, setShowShareModal] = useState(false);
   const [showEditTitle, setShowEditTitle] = useState(false);
   const [listTitle, setListTitle] = useState(list.title);
+  const [isPublic, setIsPublic] = useState(list.isPublic);
   const [copied, setCopied] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -62,6 +64,12 @@ export default function ListDetailClient({
   }, [entries, filterStatus]);
 
   async function copyShareLink() {
+    if (isOwner && !isPublic) {
+      const ok = await updateAnimeListVisibility(list.id, true);
+      if (!ok) return;
+      setIsPublic(true);
+    }
+
     const shareUrl = `${window.location.origin}/list/${list.shareToken}`;
     await navigator.clipboard.writeText(shareUrl);
     setCopied(true);
@@ -221,12 +229,12 @@ export default function ListDetailClient({
                 <span>·</span>
                 <span
                   className={`px-2 py-0.5 rounded-full border text-xs ${
-                    list.isPublic
+                    isPublic
                       ? "border-green-500/20 text-green-400 bg-green-500/10"
                       : "border-white/10 text-white/30"
                   }`}
                 >
-                  {list.isPublic ? "Public" : "Private"}
+                  {isPublic ? "Public" : "Private"}
                 </span>
                 {currentUserId === list.ownerId && (
                   <span className="text-white/25">Owner view</span>

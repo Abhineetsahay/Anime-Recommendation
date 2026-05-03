@@ -36,7 +36,6 @@ export default function SignupPage() {
 
       if (!res.ok) return setError(data.error);
 
-      // firstLogin true → go to onboarding to pick genres
       if (data.user.firstLogin) {
         router.push("/onboarding");
       } else {
