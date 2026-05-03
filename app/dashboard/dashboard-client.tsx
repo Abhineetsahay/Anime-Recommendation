@@ -97,8 +97,7 @@ export default function DashboardClient({
       />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-10">
-        {/* Welcome */}
-        <section>
+       <section>
           <h1 className="text-2xl sm:text-3xl font-bold">
             Hey, <span className="text-purple-400">{user?.username}</span> 👋
           </h1>
@@ -107,14 +106,13 @@ export default function DashboardClient({
           </p>
         </section>
 
-        {/* Genre preferences */}
         <section>
           <div className="flex items-center justify-between mb-2 sm:mb-3 gap-2">
             <h2 className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-widest">
               Your genres
             </h2>
             <Link
-              href="/settings/genres"
+              href="/settings"
               className="text-xs text-purple-400 hover:text-purple-300 transition-colors whitespace-nowrap"
             >
               Edit →
@@ -140,7 +138,6 @@ export default function DashboardClient({
           </div>
         </section>
 
-        {/* Stats row */}
         <section className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
           {[
             { label: "Total Lists", value: totalLists },
@@ -163,7 +160,6 @@ export default function DashboardClient({
           ))}
         </section>
 
-        {/* My Lists */}
         <section>
           <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
             <h2 className="text-xs sm:text-sm font-semibold text-white/60 uppercase tracking-widest">
@@ -177,7 +173,6 @@ export default function DashboardClient({
             </button>
           </div>
 
-          {/* Create list modal */}
           {creatingList && (
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center px-4">
               <div className="bg-[#1a1a24] border border-white/10 rounded-2xl p-6 w-full max-w-sm space-y-4">
@@ -241,7 +236,6 @@ export default function DashboardClient({
             </div>
           )}
 
-          {/* Lists grid */}
           {recentLists.length === 0 ? (
             <div className="border border-dashed border-white/10 rounded-2xl p-12 text-center">
               <p className="text-white/30 text-sm">No lists yet.</p>

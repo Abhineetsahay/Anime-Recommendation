@@ -5,13 +5,22 @@ export async function GET(req: NextRequest) {
     const page = req.nextUrl.searchParams.get("page") || "1";
 
     const res = await fetch(
-      `https://api.jikan.moe/v4/top/anime?filter=airing&page=${page}&limit=20`
+      `https://api.jikan.moe/v4/top/anime?filter=airing&page=${page}&limit=20`,
+      {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "AnimeRecommendationApp/1.0",
+        },
+        next: {
+          revalidate: 3600,
+        },
+      },
     );
 
     if (!res.ok) {
       return NextResponse.json(
         { error: "Failed to fetch trending anime" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -24,7 +33,7 @@ export async function GET(req: NextRequest) {
     console.error("Trending anime error:", error);
     return NextResponse.json(
       { error: "Failed to fetch trending anime" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

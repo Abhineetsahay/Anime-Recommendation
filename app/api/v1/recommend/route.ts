@@ -26,29 +26,29 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      genres = getUser?.genres.map((genre: { genre: { name: string } }) => genre.genre.name) || [];
+      genres =
+        getUser?.genres.map(
+          (genre: { genre: { name: string } }) => genre.genre.name,
+        ) || [];
     }
 
     if (!genres || genres.length === 0) {
       return NextResponse.json({ data: [], hasMore: false });
     }
 
-
     try {
       if (process.env.PYTHON_API_URL) {
         const genreQuery = genres.slice(0, 3).join("&genres=");
         const url = `${process.env.PYTHON_API_URL}/recommend-by-genre?genres=${genreQuery}&top_n=10&min_score=7`;
-        
-        
+
         const res = await fetch(url, {
           method: "GET",
-          headers: { "Accept": "application/json" },
+          headers: { Accept: "application/json" },
         });
 
         if (res.ok) {
           const data = await res.json();
-          
-          return NextResponse.json({ data: data || [], hasMore: false });
+          return NextResponse.json({ data: data['recommendations'] || [], hasMore: false });
         } else {
           console.error("Python API returned:", res.status);
         }
@@ -57,12 +57,12 @@ export async function GET(req: NextRequest) {
       console.error("Python recommender failed:", err);
     }
 
-    
+    return NextResponse.json({ data: [], hasMore: false });
   } catch (err) {
     console.error("Recommendation error:", err);
     return NextResponse.json(
       { error: "Failed to fetch recommendations", data: [], hasMore: false },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

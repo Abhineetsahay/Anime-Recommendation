@@ -53,7 +53,7 @@ export default function SettingsClient({ user, allGenres }: Props) {
         }}
       />
 
-      <nav className="relative border-b border-white/6 px-6 py-4 flex items-center justify-between">
+      <nav className="relative border-b border-white/6 px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
         <Link
           href="/dashboard"
           className="text-purple-400 font-bold tracking-tight text-lg"
@@ -62,7 +62,7 @@ export default function SettingsClient({ user, allGenres }: Props) {
         </Link>
         <Link
           href="/dashboard"
-          className="text-xs text-white/40 hover:text-white transition-colors flex items-center gap-1.5"
+          className="text-xs text-white/40 hover:text-white transition-colors flex items-center gap-1.5 shrink-0"
         >
           <svg
             width="14"
@@ -78,8 +78,8 @@ export default function SettingsClient({ user, allGenres }: Props) {
         </Link>
       </nav>
 
-      <div className="relative max-w-4xl mx-auto px-6 py-10 flex gap-8">
-        <aside className="w-56 shrink-0">
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col lg:flex-row gap-6 lg:gap-8">
+        <aside className="w-full lg:w-56 shrink-0">
           <AvatarCard
             displayAvatar={avatar.displayAvatar}
             uploading={avatar.uploading}
@@ -91,7 +91,7 @@ export default function SettingsClient({ user, allGenres }: Props) {
           <SettingsNav active={activeSection} onChange={setActiveSection} />
         </aside>
 
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0 w-full">
           {activeSection === "profile" && (
             <ProfileSection
               email={user.email}

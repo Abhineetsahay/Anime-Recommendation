@@ -25,7 +25,7 @@ export function PasswordSection({
   msg,
 }: Props) {
   return (
-    <div className="bg-white/3 border border-white/8 rounded-2xl p-6 space-y-5">
+    <div className="bg-white/3 border border-white/8 rounded-2xl p-4 sm:p-6 space-y-5">
       <div>
         <h2 className="text-lg font-semibold">Change Password</h2>
         <p className="text-xs text-white/30 mt-0.5">Min 8 characters</p>
@@ -74,7 +74,7 @@ export function PasswordSection({
       <button
         onClick={onSave}
         disabled={saving || !current || !next || !confirm}
-        className="bg-purple-600 hover:bg-purple-700 disabled:opacity-40 px-6 py-2.5 rounded-xl text-sm font-medium transition-colors"
+        className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 disabled:opacity-40 px-6 py-2.5 rounded-xl text-sm font-medium transition-colors"
       >
         {saving ? "Changing..." : "Change password"}
       </button>

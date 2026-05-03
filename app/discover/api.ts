@@ -1,11 +1,10 @@
-// api.ts
 import { Anime, Tab } from "./types";
 
 export async function fetchAnimeByTab(
   tab: Tab,
   pageNum: number,
   userGenres: string[],
-  query: string
+  query: string,
 ): Promise<{ data: Anime[]; hasMore: boolean }> {
   try {
     let url = "";
@@ -31,13 +30,14 @@ export async function fetchAnimeByTab(
 
     const res = await fetch(url);
     
+
     if (!res.ok) {
       console.error(`Fetch failed: ${res.status}`);
       return { data: [], hasMore: false };
     }
 
     const data = await res.json();
-    
+
     return {
       data: data.data ?? [],
       hasMore: data.hasMore ?? false,
@@ -48,7 +48,9 @@ export async function fetchAnimeByTab(
   }
 }
 
-export async function fetchUserLists(): Promise<{ id: string; title: string }[]> {
+export async function fetchUserLists(): Promise<
+  { id: string; title: string }[]
+> {
   try {
     const res = await fetch("/api/v1/lists");
     if (!res.ok) {
@@ -62,7 +64,10 @@ export async function fetchUserLists(): Promise<{ id: string; title: string }[]>
   }
 }
 
-export async function addAnimeToList(listId: string, anime: Anime): Promise<void> {
+export async function addAnimeToList(
+  listId: string,
+  anime: Anime,
+): Promise<void> {
   try {
     const res = await fetch(`/api/v1/lists/${listId}/entries`, {
       method: "POST",

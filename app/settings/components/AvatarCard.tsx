@@ -21,8 +21,9 @@ export function AvatarCard({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="bg-white/4 border border-white/8 rounded-2xl p-5 mb-4 text-center">
-      <div className="relative w-20 h-20 mx-auto mb-3">
+    <div className="bg-white/4 border border-white/8 rounded-2xl p-4 sm:p-5 mb-4 text-center sm:text-left">
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <div className="relative w-20 h-20 shrink-0">
         {displayAvatar ? (
           <Image
             src={displayAvatar}
@@ -31,7 +32,7 @@ export function AvatarCard({
             className={`rounded-full object-cover border-2 border-white/10 ${uploading ? "opacity-50" : ""}`}
           />
         ) : (
-          <div className="w-full h-full rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-2xl font-bold border-2 border-white/10">
+          <div className="w-full h-full rounded-full bg-linear-to-br from-purple-600 to-pink-600 flex items-center justify-center text-2xl font-bold border-2 border-white/10">
             {username[0].toUpperCase()}
           </div>
         )}
@@ -65,11 +66,15 @@ export function AvatarCard({
           className="hidden"
           onChange={onFileChange}
         />
+        </div>
+
+        <div className="min-w-0 w-full">
+          <p className="font-semibold text-sm truncate">{username}</p>
+          <p className="text-xs text-white/30 mt-0.5 truncate">{email}</p>
+          <p className="text-xs text-white/20 mt-1">Joined {joinedDate}</p>
+        </div>
       </div>
 
-      <p className="font-semibold text-sm">{username}</p>
-      <p className="text-xs text-white/30 mt-0.5">{email}</p>
-      <p className="text-xs text-white/20 mt-1">Joined {joinedDate}</p>
     </div>
   );
 }

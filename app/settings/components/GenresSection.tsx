@@ -20,7 +20,7 @@ export function GenresSection({
   msg,
 }: Props) {
   return (
-    <div className="bg-white/3 border border-white/8 rounded-2xl p-6 space-y-5">
+    <div className="bg-white/3 border border-white/8 rounded-2xl p-4 sm:p-6 space-y-5">
       <div>
         <h2 className="text-lg font-semibold">Genre Preferences</h2>
         <p className="text-xs text-white/30 mt-0.5">
@@ -28,7 +28,7 @@ export function GenresSection({
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
         {allGenres.map((genre) => {
           const isSelected = selected.includes(genre.name);
           const color = GENRE_COLORS[genre.name] ?? "#8b5cf6";
@@ -43,7 +43,7 @@ export function GenresSection({
               }`}
             >
               <span
-                className="w-2 h-2 rounded-full flex-shrink-0 transition-all"
+                className="w-2 h-2 rounded-full shrink-0 transition-all"
                 style={{
                   backgroundColor: isSelected ? color : "rgba(255,255,255,0.1)",
                 }}
@@ -59,7 +59,7 @@ export function GenresSection({
       <button
         onClick={onSave}
         disabled={saving || selected.length < 3}
-        className="bg-purple-600 hover:bg-purple-700 disabled:opacity-40 px-6 py-2.5 rounded-xl text-sm font-medium transition-colors"
+        className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 disabled:opacity-40 px-6 py-2.5 rounded-xl text-sm font-medium transition-colors"
       >
         {saving ? "Saving..." : "Save genres"}
       </button>

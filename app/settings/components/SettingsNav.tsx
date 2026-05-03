@@ -5,12 +5,12 @@ type Props = { active: Section; onChange: (s: Section) => void };
 
 export function SettingsNav({ active, onChange }: Props) {
   return (
-    <nav className="space-y-1">
+    <nav className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2">
       {NAV_ITEMS.map((item) => (
         <button
           key={item.key}
           onClick={() => onChange(item.key)}
-          className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-left ${
+          className={`w-full flex items-center justify-center sm:justify-start gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-center sm:text-left ${
             active === item.key
               ? "bg-purple-600/20 text-purple-300 border border-purple-500/20"
               : "text-white/40 hover:text-white hover:bg-white/5"

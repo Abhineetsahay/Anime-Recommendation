@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { StatusMsg } from "./StatusMsg";
 import { Msg } from "../types";
 
@@ -28,7 +27,7 @@ export function ProfileSection({
   uploadingAvatar,
 }: Props) {
   return (
-    <div className="bg-white/3 border border-white/8 rounded-2xl p-6 space-y-5">
+    <div className="bg-white/3 border border-white/8 rounded-2xl p-4 sm:p-6 space-y-5">
       <div>
         <h2 className="text-lg font-semibold">Profile</h2>
         <p className="text-xs text-white/30 mt-0.5">
@@ -73,9 +72,9 @@ export function ProfileSection({
 
       <div
         onClick={onAvatarClick}
-        className="flex items-center gap-3 border border-dashed border-white/10 hover:border-purple-500/40 rounded-xl p-4 cursor-pointer transition-colors group"
+        className="flex items-center gap-3 border border-dashed border-white/10 hover:border-purple-500/40 rounded-xl p-3 sm:p-4 cursor-pointer transition-colors group"
       >
-        <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-purple-500/10 flex items-center justify-center transition-colors flex-shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-purple-500/10 flex items-center justify-center transition-colors shrink-0">
           <svg
             width="18"
             height="18"
@@ -95,7 +94,7 @@ export function ProfileSection({
             {uploadingAvatar ? "Uploading..." : "Change profile picture"}
           </p>
           <p className="text-xs text-white/20 mt-0.5">
-            JPG, PNG, WebP · Max 5MB · Stored on Azure
+            JPG, PNG, WebP · Max 5MB 
           </p>
         </div>
       </div>
@@ -105,7 +104,7 @@ export function ProfileSection({
       <button
         onClick={onSave}
         disabled={saving}
-        className="bg-purple-600 hover:bg-purple-700 disabled:opacity-40 px-6 py-2.5 rounded-xl text-sm font-medium transition-colors"
+        className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 disabled:opacity-40 px-6 py-2.5 rounded-xl text-sm font-medium transition-colors"
       >
         {saving ? "Saving..." : "Save profile"}
       </button>

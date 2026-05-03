@@ -15,13 +15,22 @@ export async function GET(req: NextRequest) {
             : "fall";
 
     const res = await fetch(
-      `https://api.jikan.moe/v4/seasons/${year}/${season}?page=${page}&limit=20`
+      `https://api.jikan.moe/v4/seasons/${year}/${season}?page=${page}&limit=20`,
+      {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "AnimeRecommendationApp/1.0",
+        },
+        next: {
+          revalidate: 3600,
+        },
+      },
     );
 
     if (!res.ok) {
       return NextResponse.json(
         { error: "Failed to fetch seasonal anime" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -34,7 +43,7 @@ export async function GET(req: NextRequest) {
     console.error("Seasonal anime error:", error);
     return NextResponse.json(
       { error: "Failed to fetch seasonal anime" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -8,18 +8,27 @@ export async function GET(req: NextRequest) {
     if (!query) {
       return NextResponse.json(
         { error: "Search query is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const res = await fetch(
-      `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&page=${page}&limit=20`
+      `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&page=${page}&limit=20`,
+      {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "AnimeRecommendationApp/1.0",
+        },
+        next: {
+          revalidate: 3600,
+        },
+      },
     );
 
     if (!res.ok) {
       return NextResponse.json(
         { error: "Failed to search anime" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -32,7 +41,7 @@ export async function GET(req: NextRequest) {
     console.error("Search anime error:", error);
     return NextResponse.json(
       { error: "Failed to search anime" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
