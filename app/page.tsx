@@ -45,7 +45,6 @@ const FEATURES = [
 ];
 
 const STATS = [
-  { value: "900K+", label: "Anime in database" },
   { value: "Real-time", label: "MAL data via Jikan" },
   { value: "ML-powered", label: "Recommendations" },
   { value: "Free", label: "Always & forever" },
@@ -541,7 +540,7 @@ export default function HomePage() {
 
       {/* ── STATS ── */}
       <section className="py-20 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-6">
           {STATS.map((stat) => (
             <div key={stat.value} className="text-center group">
               <p

@@ -66,10 +66,6 @@ export default function Navbar({
             <span className="text-xl font-bold text-purple-400 sm:text-2xl">
               AniList
             </span>
-
-            <span className="hidden font-mono text-xs text-white/30 sm:inline">
-              beta
-            </span>
           </Link>
 
           <div className="flex items-center gap-12">
