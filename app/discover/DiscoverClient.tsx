@@ -24,7 +24,7 @@ export default function DiscoverClient({
   username,
   userAvatar,
 }: Props) {
-  // State
+  
   const [activeTab, setActiveTab] = useState<Tab>(
     userGenres.length > 0 ? "For You" : "Trending"
   );
@@ -37,7 +37,21 @@ export default function DiscoverClient({
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
   const [userLists, setUserLists] = useState<{ id: string; title: string }[]>([]);
 
-  // Fetch anime data
+  const normalizeAnimeList = (value: unknown): Anime[] => {
+    if (Array.isArray(value)) {
+      return value;
+    }
+
+    if (value && typeof value === "object") {
+      const nestedData = (value as { data?: unknown }).data;
+      if (Array.isArray(nestedData)) {
+        return nestedData;
+      }
+    }
+
+    return [];
+  };
+  
   const fetchAnime = useCallback(
     async (tab: Tab, pageNum = 1, query = "") => {
       setLoading(true);
@@ -48,7 +62,13 @@ export default function DiscoverClient({
           userGenres,
           query
         );
-        setAnimeList((prev) => (pageNum === 1 ? data : [...prev, ...data]));
+        const normalizedData = normalizeAnimeList(data);
+
+        setAnimeList((prev) =>
+          pageNum === 1
+            ? normalizedData
+            : [...(Array.isArray(prev) ? prev : []), ...normalizedData],
+        );
         setHasMore(hasMore);
       } catch (err) {
         console.error("Failed to fetch anime:", err);
@@ -58,8 +78,8 @@ export default function DiscoverClient({
     },
     [userGenres]
   );
-
-  // Load user lists
+  console.log(animeList);
+   
   useEffect(() => {
     if (!userId) return;
     fetchUserLists().then(setUserLists);
@@ -95,6 +115,8 @@ export default function DiscoverClient({
     void fetchAnime(activeTab, nextPage, searchQuery);
   };
 
+  const displayedAnimeList = Array.isArray(animeList) ? animeList : [];
+
   return (
     <div className="min-h-screen bg-[#0f0f13] text-white">
       {/* Navbar */}
@@ -105,17 +127,14 @@ export default function DiscoverClient({
       />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        {/* Header */}
         <PageHeader userGenres={userGenres} />
 
-        {/* Tabs */}
         <TabBar
           activeTab={activeTab}
           onTabChange={handleTabChange}
           userGenresEmpty={userGenres.length === 0}
         />
 
-        {/* Search bar */}
         {activeTab === "Search" && (
           <SearchBar
             searchInput={searchInput}
@@ -124,13 +143,11 @@ export default function DiscoverClient({
           />
         )}
 
-        {/* Empty state for "For You" */}
         {activeTab === "For You" && userGenres.length === 0 && <EmptyForYou />}
 
-        {/* Anime grid */}
-        {animeList.length > 0 && (
+        {displayedAnimeList.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 my-6 sm:my-8">
-            {animeList.map((anime,i) => (
+            {displayedAnimeList.map((anime, i) => (
               <AnimeCard
                 key={i}
                 anime={anime}
@@ -142,11 +159,9 @@ export default function DiscoverClient({
           </div>
         )}
 
-        {/* Loading skeleton */}
         {loading && <AnimeGridSkeleton />}
 
-        {/* Load more button */}
-        {!loading && hasMore && animeList.length > 0 && (
+        {!loading && hasMore && displayedAnimeList.length > 0 && (
           <div className="text-center mt-6 sm:mt-10">
             <button
               onClick={handleLoadMore}
