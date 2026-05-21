@@ -78,8 +78,6 @@ export default function DiscoverClient({
     },
     [userGenres]
   );
-  console.log(animeList);
-   
   useEffect(() => {
     if (!userId) return;
     fetchUserLists().then(setUserLists);

@@ -29,7 +29,7 @@ export async function fetchAnimeByTab(
     }
 
     const res = await fetch(url);
-    console.log(res);
+  
     if (!res.ok) {
       console.error(`Fetch failed: ${res.status}`);
       return { data: [], hasMore: false };
